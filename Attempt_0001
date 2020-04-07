@@ -1,0 +1,72 @@
+#include <iostream>
+#include <ctime>
+
+void PrintIntroduction(int Difficulty)
+{
+    // Print welcome messages to the terminal
+    std::cout << "\n\nHello, World!\n\n";
+    std::cout << "You are a secret agent breaking into a level " << Difficulty;
+    std::cout << " secure server room...\nYou need to enter the correct codes to continue...\n\n";
+}
+
+bool PlayGame(int Difficulty)
+{
+    PrintIntroduction(Difficulty);
+
+    // Declare 3 number code
+    const int CodeA = rand() % Difficulty + 1;
+    const int CodeB = rand() % Difficulty + 1;
+    const int CodeC = rand() % Difficulty + 1;
+
+    const int CodeSum = CodeA + CodeB + CodeC;
+    const int CodeProduct = CodeA * CodeB * CodeC;
+
+    // Print CodeSum and CodeProduct to the terminal
+    std::cout << "+ There are three numbers in the code\n";
+    std::cout << "+ The codes add-up to: " << CodeSum;
+    std::cout << "\n+ The codes multiply to give: " << CodeProduct << "\n" << std::endl;
+
+    // Store player guess
+    int GuessA, GuessB, GuessC;
+    std::cin >> GuessA >> GuessB >> GuessC;
+    
+    int GuessSum = GuessA + GuessB + GuessC;
+    int GuessProduct = GuessA * GuessB * GuessC;
+
+    // Check if the player's guess is correct
+    if (GuessSum == CodeSum && GuessProduct == CodeProduct)
+    {   
+        std::cout << "Congrats! You entered the codes correctly, you may pass...";
+        return true;
+    }
+    else
+    {
+        std::cout << "You failed to enter the correct codes, try again!";
+        return false;
+    }
+}
+int main()
+{   
+    srand(time(NULL)); // Creates new random sequence based on timeof day
+
+    int LevelDifficulty = 1;
+    const int MaxLevel = 4;
+    
+    while (LevelDifficulty <= MaxLevel)  // Loop game untill all levels completed
+    {
+        bool bLevelComplete = PlayGame(LevelDifficulty);
+        std::cin.clear(); // Clears any errors
+        std::cin.ignore(); // Discards the buffer
+
+        if (bLevelComplete)
+        {
+            ++LevelDifficulty;
+            
+        }
+        
+    }
+
+    std::cout << "\n\nCONGRATULATIONS: YOU DID IT!\n\n";
+
+    return 0;
+}
